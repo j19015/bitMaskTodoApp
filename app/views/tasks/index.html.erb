@@ -1,0 +1,25 @@
+<p id="notice" class="text-success"><%= notice %></p>
+
+<h1>Tasks</h1>
+<%= link_to 'New Task', new_task_path %>
+<table class="table">
+  <thead>
+    <tr>
+      <th>タイトル</th>
+      <th>内容</th>
+      <th>実行曜日</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.name %></td>
+        <td><%= task.body %></td>
+        <td><%= task.display_is_loop(task.is_loop) %></td>
+        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: '本当に削除しますか?' },class:"btn btn-sm btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

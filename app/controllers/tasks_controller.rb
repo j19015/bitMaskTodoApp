@@ -13,11 +13,14 @@ class TasksController < ApplicationController
 
   # 新規作成処理
   def create
-    # 選択された値を取得
-    selected_values = task_params[:is_loop].map(&:to_i)
+    # is_loopが送られているかを確認
+    unless task_params[:is_loop].nil?
+      # 選択された値を取得
+      selected_values = task_params[:is_loop].map(&:to_i)
 
-    # 選択された値をビットマスクに変換
-    is_loop_mask = selected_values.reduce(0) { |sum, value| sum | value }
+      # 選択された値をビットマスクに変換
+      is_loop_mask = selected_values.reduce(0) { |sum, value| sum | value }
+    end
 
     # @taskに登録用のデータをまとめて挿入
     @task = Task.new(task_params.merge(is_loop: is_loop_mask))
@@ -25,7 +28,7 @@ class TasksController < ApplicationController
     # タスクを保存
     if @task.save
         # タスクの一覧ページへ遷移
-        redirect_to tasks_path  
+        redirect_to tasks_path,notice: "タスクを削除しました。"
     else
         # newページを再レンダリング
         render :new
@@ -39,13 +42,13 @@ class TasksController < ApplicationController
     # タスクを削除
     @task.destroy
     # タスクの一覧ページに遷移
-    redirect_to tasks_path
+    redirect_to tasks_path,notice: "タスクを削除しました。"
   end
 
   protected
 
   # パラメータ取得用のメソッド
   def task_params
-    params.require(:task).permit(:name, :body, :is_loop)
+    params.require(:task).permit(:name, :body, is_loop: [])
   end
 end

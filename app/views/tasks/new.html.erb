@@ -1,0 +1,47 @@
+<%= form_with model: @task do |form| %>
+  <% if @task.errors.any? %>
+    <div id="error_explanation" class="alert alert-danger">
+      <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+
+      <ul>
+        <% @task.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name,"タイトル",class: 'form-label' %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :body,"内容", class: 'form-label' %>
+    <%= form.text_area :body, class: 'form-control' %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :is_loop, "実行曜日", class: 'form-label' %><br>
+    <% options = [
+        ["月", 1],
+        ["火", 2],
+        ["水", 4],
+        ["木", 8],
+        ["金", 16],
+        ["土", 32],
+        ["日", 64]
+      ] 
+    %>
+    <% options.each do |option| %>
+      <div class="form-check form-check-inline">
+        <%= form.check_box :is_loop, { multiple: true, checked: (@task.is_loop & option[1]) == option[1], class: 'form-check-input' }, option[1], nil %>
+        <%= form.label :is_loop, option[0], value: option[1], class: 'form-check-label' %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>

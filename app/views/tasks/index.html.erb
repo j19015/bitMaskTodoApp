@@ -2,6 +2,14 @@
 
 <h1>Tasks</h1>
 <%= link_to 'New Task', new_task_path %>
+
+<div class="mt-2 mb-2">
+  <% [["月", 1], ["火", 2], ["水", 4], ["木", 8], ["金", 16], ["土", 32], ["日", 64], ["全体", 127]].each do |day, bit_value| %>
+    <%= link_to day, tasks_path(is_loop: bit_value), class: "btn #{params[:is_loop].to_i == bit_value ? "btn-primary" : "btn-secondary"} btn-sm mr-2 d-inline-block" %>
+  <% end %>
+</div>
+
+
 <table class="table">
   <thead>
     <tr>

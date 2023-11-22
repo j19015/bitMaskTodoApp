@@ -5,6 +5,17 @@ class TasksController < ApplicationController
     @tasks = Task.all
   end
 
+  def index
+    # クエリストリングにis_loopがあるか確認
+    if params[:is_loop]
+      # ANDを用いて検索
+      @tasks = Task.where('is_loop & ? > 0',params[:is_loop].to_i)
+    else
+      # タスクの一覧を取得
+      @tasks = Task.all
+    end
+  end
+
   # 新規作成ページ
   def new
     # タスクの空インスタンスを定義

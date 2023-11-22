@@ -35,7 +35,7 @@ class TasksController < ApplicationController
   # 削除処理
   def destroy
     # URLに含まれてるidから削除するタスクを検索
-    @task = Task.find(params[:id]
+    @task = Task.find(params[:id])
     # タスクを削除
     @task.destroy
     # タスクの一覧ページに遷移
